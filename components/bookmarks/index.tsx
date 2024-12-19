@@ -1,10 +1,10 @@
 "use client";
 
 import kyInstance from "@/lib/ky";
-import PostsLoadingSkeleton from "@/components/post/posts-loading-skeleton";
-import InfiniteScrollContainer from "@/components/main/infinite-scroll-container";
+import PostsLoadingSkeleton from "@/components/post/PostsLoadingSkeleton";
+import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import Post from "@/components/post";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 
 import { PostsPage } from "@/lib/utils/post-data-include";
 import { useInfiniteQuery } from "@tanstack/react-query";

@@ -1,45 +1,44 @@
 import { z } from "zod";
-import { useUploadThing } from "@/lib/uploadthing";
+import { useRouter } from "next/navigation";
 import {
   InfiniteData,
   QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useUploadThing } from "@/lib/uploadthing";
 import { updateProfile } from "@/actions/profile/update-profile";
 import { updateProfileSchema } from "@/schemas";
 import { PostsPage } from "@/lib/utils/post-data-include";
 import { useToast } from "@/hooks/use-toast";
 
+interface UpdateProfile {
+  avatar?: File;
+  values: z.infer<typeof updateProfileSchema>;
+}
+
 export const UpdateProfileMutation = () => {
-  const { toast } = useToast();
-
   const router = useRouter();
-
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { startUpload: startAvatarUpload } = useUploadThing("avatar");
 
   const mutation = useMutation({
-    mutationFn: async ({
-      values,
-      avatar,
-    }: {
-      values: z.infer<typeof updateProfileSchema>;
-      avatar?: File;
-    }) => {
+    mutationFn: async ({ avatar, values }: UpdateProfile) => {
       return Promise.all([
-        updateProfile(values),
         avatar && startAvatarUpload([avatar]),
+        updateProfile({ values }),
       ]);
     },
-    onSuccess: async ([updatedUser, uploadResult]) => {
-      console.log(uploadResult);
 
+    onSuccess: async ([uploadResult, updatedUser]) => {
       const newAvatarUrl = uploadResult?.[0].serverData.avatarUrl;
 
-      const queryFilter: QueryFilters = {
+      const queryFilter: QueryFilters<
+        InfiniteData<PostsPage, string | null>,
+        Error
+      > = {
         queryKey: ["post-feed"],
       };
 
@@ -53,7 +52,6 @@ export const UpdateProfileMutation = () => {
           return {
             pageParams: oldData.pageParams,
             pages: oldData.pages.map((page) => ({
-              nextCursor: page.nextCursor,
               posts: page.posts.map((post) => {
                 if (post.user.id === updatedUser.id) {
                   return {
@@ -66,6 +64,7 @@ export const UpdateProfileMutation = () => {
                 }
                 return post;
               }),
+              nextCursor: page.nextCursor,
             })),
           };
         }
@@ -73,15 +72,15 @@ export const UpdateProfileMutation = () => {
 
       router.refresh();
 
-      toast({
-        description: "Profile updated",
-      });
+      toast({ description: "Profile updated." });
     },
-    onError(error) {
+
+    onError: (error) => {
       console.error(error);
+
       toast({
         variant: "destructive",
-        description: "Failed to update profile. Please try again.",
+        description: "Failed to update profile. Please try again!",
       });
     },
   });

@@ -1,4 +1,7 @@
 import "./globals.css";
+
+import ReactQueryProvider from "@/components/ReactQueryProvider";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -7,7 +10,6 @@ import { extractRouterConfig } from "uploadthing/server";
 import { auth } from "@/auth";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { fileRouter } from "@/app/api/uploadthing/core";
-import { ReactQueryProvider } from "@/app/react-query-provider";
 import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({

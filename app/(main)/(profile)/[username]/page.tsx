@@ -1,6 +1,6 @@
 import Sidebar from "@/components/sidebar";
-import UserPosts from "@/components/profile/user-posts";
-import UserProfile from "@/components/profile/user-profile";
+import UserPosts from "@/components/profile/UserPosts";
+import UserProfile from "@/components/profile/UserProfile";
 
 import { cache } from "react";
 import { Metadata } from "next";
@@ -35,9 +35,7 @@ export async function generateMetadata({
 
   const user = await getUser(params.username, loggedInUser.id);
 
-  return {
-    title: `${user.name} (@${user.username})`,
-  };
+  return { title: `${user.name} (@${user.username})` };
 }
 
 const ProfilePage = async ({
@@ -51,7 +49,7 @@ const ProfilePage = async ({
   if (!loggedInUser) {
     return (
       <p className="text-destructive">
-        You&apos;re not authorized to view this page.
+        You&apos;re not authorized to view this page!
       </p>
     );
   }

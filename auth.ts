@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-
 import authConfig from "@/auth.config";
 
 import { prisma } from "@/lib/prisma";
@@ -54,9 +53,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (existingUser.isTwoFactorConfirm) {
             await prisma.user.update({
               where: { id: existingUser.id },
-              data: {
-                isTwoFactorConfirm: false,
-              },
+              data: { isTwoFactorConfirm: false },
             });
 
             return true;

@@ -1,18 +1,19 @@
 "use client";
 
-import useInitializeChatClient from "@/hooks/use-initialize-chat-client";
-import ChatSidebar from "@/components/messages/chat-sidebar";
-import ChatChannel from "@/components/messages/chat-channel";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
+import ChatSidebar from "@/components/messages/ChatSidebar";
+import ChatChannel from "@/components/messages/ChatChannel";
 
-import { useTheme } from "next-themes";
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import { Chat as StreamChat } from "stream-chat-react";
+import { useInitializeChatClient } from "@/hooks/use-initialize-chat-client";
 
-export default function Messages() {
+const Messages = () => {
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+
   const chatClient = useInitializeChatClient();
   const { resolvedTheme } = useTheme();
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
   if (!chatClient) return <Spinner />;
 
@@ -40,4 +41,5 @@ export default function Messages() {
       </div>
     </main>
   );
-}
+};
+export default Messages;

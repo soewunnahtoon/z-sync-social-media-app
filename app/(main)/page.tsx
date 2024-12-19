@@ -1,15 +1,20 @@
 import PostEditor from "@/components/editor";
-import FollowingFeed from "@/components/main/following-feed";
-import ForYouFeed from "@/components/main/for-you-feed";
+import FollowingFeed from "@/components/main/FollowingFeed";
+import ForYouFeed from "@/components/main/ForYouFeed";
 import Sidebar from "@/components/sidebar";
 
+import { redirect } from "next/navigation";
+import { validateUser } from "@/actions/auth/validate-user";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const user = await validateUser();
+  if (!user) redirect("/login");
+
   return (
     <main className="flex w-full min-w-0 gap-2">
       <div className="w-full min-w-0 space-y-2">
-        <PostEditor />
+        <PostEditor name={user.name} avatarUrl={user.avatarUrl} />
 
         <Tabs defaultValue="for-you">
           <TabsList className="w-full gap-2 shadow-sm">

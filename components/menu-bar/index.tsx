@@ -1,13 +1,17 @@
 import Link from "next/link";
 import streamServerClient from "@/lib/stream";
-import UserAvatar from "@/components/user-avatar";
-import MessageButton from "@/components/menu-bar/message-button";
-import NotificationButton from "@/components/menu-bar/notification-button";
+import UserAvatar from "@/components/UserAvatar";
+import MessageButton from "@/components/menu-bar/MessageButton";
+import NotificationButton from "@/components/menu-bar/NotificationButton";
 
 import { Bookmark, Home } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { validateUser } from "@/actions/auth/validate-user";
+
+interface MenuBarProps {
+  className?: string;
+}
 
 const MenuBar = async ({ className }: MenuBarProps) => {
   const user = await validateUser();
@@ -20,6 +24,7 @@ const MenuBar = async ({ className }: MenuBarProps) => {
         read: false,
       },
     }),
+
     (await streamServerClient.getUnreadCount(user.id)).total_unread_count,
   ]);
 
@@ -27,7 +32,7 @@ const MenuBar = async ({ className }: MenuBarProps) => {
     <div className={className}>
       <Button
         variant="ghost"
-        className="flex items-center justify-start gap-2"
+        className="flex items-center justify-center lg:justify-start gap-2"
         title="Home"
         asChild
       >
@@ -45,7 +50,7 @@ const MenuBar = async ({ className }: MenuBarProps) => {
 
       <Button
         variant="ghost"
-        className="flex items-center justify-start gap-2"
+        className="flex items-center justify-center lg:justify-start gap-2"
         title="Bookmarks"
         asChild
       >
@@ -57,7 +62,7 @@ const MenuBar = async ({ className }: MenuBarProps) => {
 
       <Button
         variant="ghost"
-        className="flex items-center justify-start gap-2"
+        className="flex items-center justify-center lg:justify-start gap-2"
         title={user.name}
         asChild
       >
@@ -69,5 +74,4 @@ const MenuBar = async ({ className }: MenuBarProps) => {
     </div>
   );
 };
-
 export default MenuBar;

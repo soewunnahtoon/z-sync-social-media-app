@@ -2,10 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    staleTimes: {
-      dynamic: 30,
-    },
+    staleTimes: { dynamic: 30 },
   },
+
   images: {
     remotePatterns: [
       {
@@ -15,7 +14,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  rewrites: () => {
+
+  rewrites: async () => {
     return [
       {
         source: "/hashtag/:tag",
@@ -24,5 +24,4 @@ const nextConfig: NextConfig = {
     ];
   },
 };
-
 export default nextConfig;

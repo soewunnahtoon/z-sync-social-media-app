@@ -1,6 +1,6 @@
-import LinkifyHashtag from "@/components/linkify/linkify-hashtag";
-import LinkifyUrl from "@/components/linkify/linkify-url";
-import LinkifyUsername from "@/components/linkify/linkify-username";
+import LinkifyHashtag from "@/components/linkify/LinkifyHashtag";
+import LinkifyUrl from "@/components/linkify/LinkifyUrl";
+import LinkifyUsername from "@/components/linkify/LinkifyUsername";
 
 const Linkify = ({ children }: ChildrenProp) => {
   return (
@@ -11,5 +11,4 @@ const Linkify = ({ children }: ChildrenProp) => {
     </LinkifyUsername>
   );
 };
-
 export default Linkify;

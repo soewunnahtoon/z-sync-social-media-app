@@ -10,7 +10,30 @@ import {
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
+// export default auth((req) => {
+//   const { nextUrl } = req;
+//   const isLoggedIn = !!req.auth;
+
+//   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+//   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+//   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+
+//   if (isApiAuthRoute) return null;
+
+//   if (isAuthRoute) {
+//     if (isLoggedIn)
+//       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+
+//     return null;
+//   }
+
+//   if (!isLoggedIn && !isPublicRoute)
+//     return Response.redirect(new URL("/login", nextUrl));
+
+//   return null;
+// });
+
+export default auth(async (req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
@@ -21,21 +44,19 @@ export default auth((req) => {
   if (isApiAuthRoute) return null;
 
   if (isAuthRoute) {
-    if (isLoggedIn)
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl.origin));
+    }
     return null;
   }
 
-  if (!isLoggedIn && !isPublicRoute)
-    return Response.redirect(new URL("/login", nextUrl));
+  if (!isLoggedIn && !isPublicRoute) {
+    return Response.redirect(new URL("/login", nextUrl.origin));
+  }
 
   return null;
 });
 
 export const config = {
-  matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)", "/(api|trpc)(.*)"],
 };

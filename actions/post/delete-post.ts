@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { validateUser } from "@/actions/auth/validate-user";
 import { getPostDataInclude } from "@/lib/utils/post-data-include";
 
-export async function deletePost(id: string) {
+export const deletePost = async (id: string) => {
   const user = await validateUser();
   if (!user) throw new Error("Unauthorized!");
 
@@ -18,4 +18,4 @@ export async function deletePost(id: string) {
   });
 
   return deletedPost;
-}
+};

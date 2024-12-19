@@ -8,13 +8,13 @@ import { useToast } from "@/hooks/use-toast";
 import { createComment } from "@/actions/post/comment/create-comment";
 import { CommentsPage } from "@/lib/utils/comment-data-include";
 
-export function CreateCommentMutation(postId: string) {
-  const { toast } = useToast();
-
+export const CreateCommentMutation = (postId: string) => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const mutation = useMutation({
     mutationFn: createComment,
+
     onSuccess: async (newComment) => {
       const queryKey: QueryKey = ["comments", postId];
 
@@ -30,8 +30,8 @@ export function CreateCommentMutation(postId: string) {
               pageParams: oldData.pageParams,
               pages: [
                 {
-                  previousCursor: firstPage.previousCursor,
                   comments: [...firstPage.comments, newComment],
+                  previousCursor: firstPage.previousCursor,
                 },
                 ...oldData.pages.slice(1),
               ],
@@ -47,18 +47,18 @@ export function CreateCommentMutation(postId: string) {
         },
       });
 
-      toast({
-        description: "Comment created",
-      });
+      toast({ description: "Comment created." });
     },
-    onError(error) {
+
+    onError: (error) => {
       console.error(error);
+
       toast({
         variant: "destructive",
-        description: "Failed to submit comment. Please try again.",
+        description: "Failed to submit comment. Please try again!",
       });
     },
   });
 
   return mutation;
-}
+};

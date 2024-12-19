@@ -1,6 +1,6 @@
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 
-export function formatRelativeDate(from: Date) {
+export const formatRelativeDate = (from: Date) => {
   const currentDate = new Date();
 
   if (currentDate.getTime() - from.getTime() < 24 * 60 * 60 * 1000) {
@@ -12,4 +12,4 @@ export function formatRelativeDate(from: Date) {
       return formatDate(from, "MMM d, yyyy");
     }
   }
-}
+};

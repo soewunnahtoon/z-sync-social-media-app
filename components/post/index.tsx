@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import Linkify from "@/components/linkify";
-import UserAvatar from "@/components/user-avatar";
-import UserTooltip from "@/components/user-tooltip";
-import LikeButton from "@/components/post/like-button";
-import BookmarkButton from "@/components/post/bookmark-button";
-import PostMoreButton from "@/components/post/post-more-button";
+import UserAvatar from "@/components/UserAvatar";
+import UserTooltip from "@/components/UserTooltip";
+import LikeButton from "@/components/post/LikeButton";
+import BookmarkButton from "@/components/post/BookmarkButton";
+import PostMoreButton from "@/components/post/PostMoreButton";
 import Comments from "@/components/post/comment";
-import CommentButton from "@/components/post/comment-button";
-import MediaPreviews from "@/components/post/media-previews";
+import CommentButton from "@/components/post/CommentButton";
+import MediaPreviews from "@/components/post/MediaPreviews";
 
 import { useState } from "react";
 import { formatRelativeDate } from "@/lib/utils/format-date";

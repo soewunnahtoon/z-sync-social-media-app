@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import loginImage from "@/assets/login-image.jpg";
-import LoginForm from "@/components/auth/login-form";
+import LoginForm from "@/components/auth/LoginForm";
 
 import { Metadata } from "next";
 
@@ -22,8 +21,8 @@ const LoginPage = () => {
 
             <div className="flex items-center justify-center gap-2 text-xs md:text-sm">
               <p>Don&apos;t have an account?</p>
-              <Link href="/signup" className="hover:underline">
-                Signup
+              <Link href="/register" className="hover:underline">
+                Register
               </Link>
             </div>
           </div>

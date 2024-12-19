@@ -1,13 +1,17 @@
 "use client";
 
 import kyInstance from "@/lib/ky";
-import PostsLoadingSkeleton from "@/components/post/posts-loading-skeleton";
-import InfiniteScrollContainer from "@/components/main/infinite-scroll-container";
 import Post from "@/components/post";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
+import PostsLoadingSkeleton from "@/components/post/PostsLoadingSkeleton";
+import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 
 import { PostsPage } from "@/lib/utils/post-data-include";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
+interface SearchResultsProps {
+  query: string;
+}
 
 const SearchResults = ({ query }: SearchResultsProps) => {
   const {
@@ -19,6 +23,7 @@ const SearchResults = ({ query }: SearchResultsProps) => {
     status,
   } = useInfiniteQuery({
     queryKey: ["post-feed", "search", query],
+
     queryFn: ({ pageParam }) =>
       kyInstance
         .get("/api/search", {
@@ -28,8 +33,11 @@ const SearchResults = ({ query }: SearchResultsProps) => {
           },
         })
         .json<PostsPage>(),
+
     initialPageParam: null as string | null,
+
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+
     gcTime: 0,
   });
 

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import UserAvatar from "@/components/user-avatar";
+import UserAvatar from "@/components/UserAvatar";
 
 import { JSX } from "react";
+import { Heart, MessageCircle, User2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NotificationData } from "@/lib/utils/notification-data-include";
 import { NotificationType } from "@prisma/client";
-import { Heart, MessageCircle, User2 } from "lucide-react";
 import { formatRelativeDate } from "@/lib/utils/format-date";
 
 interface NotificationProps {
@@ -71,5 +71,4 @@ const Notification = ({ notification }: NotificationProps) => {
     </Link>
   );
 };
-
 export default Notification;

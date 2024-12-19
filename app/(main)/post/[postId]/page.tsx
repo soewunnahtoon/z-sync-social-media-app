@@ -1,6 +1,6 @@
 import Post from "@/components/post";
-import Spinner from "@/components/spinner";
-import UserInfoSidebar from "@/components/post/user-info-sidebar";
+import Spinner from "@/components/Spinner";
+import UserInfoSidebar from "@/components/post/UserInfoSidebar";
 
 import { cache, Suspense } from "react";
 import { Metadata } from "next";
@@ -9,18 +9,15 @@ import { prisma } from "@/lib/prisma";
 import { validateUser } from "@/actions/auth/validate-user";
 import { getPostDataInclude } from "@/lib/utils/post-data-include";
 
-interface PageProps {
+interface PostPageProps {
   params: { postId: string };
 }
 
 const getPost = cache(async (postId: string, loggedInUserId: string) => {
   const post = await prisma.post.findUnique({
-    where: {
-      id: postId,
-    },
+    where: { id: postId },
     include: getPostDataInclude(loggedInUserId),
   });
-
   if (!post) notFound();
 
   return post;
@@ -28,23 +25,21 @@ const getPost = cache(async (postId: string, loggedInUserId: string) => {
 
 export async function generateMetadata({
   params: { postId },
-}: PageProps): Promise<Metadata> {
+}: PostPageProps): Promise<Metadata> {
   const user = await validateUser();
   if (!user) return {};
 
   const post = await getPost(postId, user.id);
 
-  return {
-    title: `${post.user.name}: ${post.content.slice(0, 50)}...`,
-  };
+  return { title: `${post.user.name}: ${post.content.slice(0, 50)}...` };
 }
 
-const PostPage = async ({ params: { postId } }: PageProps) => {
+const PostPage = async ({ params: { postId } }: PostPageProps) => {
   const user = await validateUser();
   if (!user) {
     return (
       <p className="text-destructive">
-        You&apos;re not authorized to view this page.
+        You&apos;re not authorized to view this page!
       </p>
     );
   }
@@ -65,5 +60,4 @@ const PostPage = async ({ params: { postId } }: PageProps) => {
     </main>
   );
 };
-
 export default PostPage;

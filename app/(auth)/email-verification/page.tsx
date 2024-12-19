@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import loginImage from "@/assets/login-image.jpg";
-import EmailVerificationForm from "@/components/auth/email-verification-form";
+import EmailVerificationForm from "@/components/auth/EmailVerificationForm";
 
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import SearchBar from "@/components/navbar/search-bar";
-import UserButton from "@/components/navbar/user-button";
+import SearchBar from "@/components/navbar/SearchBar";
+import UserButton from "@/components/navbar/UserButton";
 
 import { validateUser } from "@/actions/auth/validate-user";
 

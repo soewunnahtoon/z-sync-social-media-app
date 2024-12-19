@@ -4,7 +4,6 @@ import bcryptjs from "bcryptjs";
 
 import { z } from "zod";
 import { AuthError } from "next-auth";
-
 import { prisma } from "@/lib/prisma";
 import { signIn } from "@/auth";
 import { loginSchema } from "@/schemas";

@@ -2,20 +2,40 @@
 
 import kyInstance from "@/lib/ky";
 
-import PostsLoadingSkeleton from "@/components/post/posts-loading-skeleton";
-import InfiniteScrollContainer from "@/components/main/infinite-scroll-container";
-import Spinner from "@/components/spinner";
-import Notification from "@/components/notifications/notification";
+import Spinner from "@/components/Spinner";
+import PostsLoadingSkeleton from "@/components/post/PostsLoadingSkeleton";
+import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
+import Notification from "@/components/notifications/Notification";
 
+import { useEffect } from "react";
 import {
   useInfiniteQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { NotificationsPage } from "@/lib/utils/notification-data-include";
 
-export default function Notifications() {
+const Notifications = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => kyInstance.patch("/api/notifications/mark-as-read"),
+
+    onSuccess: () => {
+      queryClient.setQueryData(["unread-notification-count"], {
+        unreadCount: 0,
+      });
+    },
+
+    onError: (error) => {
+      console.error("Failed to mark notifications as read!", error);
+    },
+  });
+
+  useEffect(() => {
+    mutate();
+  }, [mutate]);
+
   const {
     data,
     fetchNextPage,
@@ -25,6 +45,7 @@ export default function Notifications() {
     status,
   } = useInfiniteQuery({
     queryKey: ["notifications"],
+
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
@@ -32,33 +53,15 @@ export default function Notifications() {
           pageParam ? { searchParams: { cursor: pageParam } } : {}
         )
         .json<NotificationsPage>(),
+
     initialPageParam: null as string | null,
+
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationFn: () => kyInstance.patch("/api/notifications/mark-as-read"),
-    onSuccess: () => {
-      queryClient.setQueryData(["unread-notification-count"], {
-        unreadCount: 0,
-      });
-    },
-    onError(error) {
-      console.error("Failed to mark notifications as read", error);
-    },
-  });
-
-  useEffect(() => {
-    mutate();
-  }, [mutate]);
-
   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 
-  if (status === "pending") {
-    return <PostsLoadingSkeleton />;
-  }
+  if (status === "pending") return <PostsLoadingSkeleton />;
 
   if (status === "success" && !notifications.length && !hasNextPage) {
     return (
@@ -83,7 +86,9 @@ export default function Notifications() {
       {notifications.map((notification) => (
         <Notification key={notification.id} notification={notification} />
       ))}
+
       {isFetchingNextPage && <Spinner />}
     </InfiniteScrollContainer>
   );
-}
+};
+export default Notifications;

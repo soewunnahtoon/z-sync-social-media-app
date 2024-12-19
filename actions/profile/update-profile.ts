@@ -8,9 +8,11 @@ import { updateProfileSchema } from "@/schemas";
 import { validateUser } from "@/actions/auth/validate-user";
 import { getUserDataSelect } from "@/lib/utils/user-data-select";
 
-export const updateProfile = async (
-  values: z.infer<typeof updateProfileSchema>
-) => {
+interface UpdateProfileProps {
+  values: z.infer<typeof updateProfileSchema>;
+}
+
+export const updateProfile = async (values: UpdateProfileProps) => {
   const user = await validateUser();
   if (!user) throw new Error("Unauthorized!");
 

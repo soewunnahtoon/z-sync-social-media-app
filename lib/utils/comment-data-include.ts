@@ -1,13 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { getUserDataSelect } from "@/lib/utils/user-data-select";
 
-export function getCommentDataInclude(loggedInUserId: string) {
+export const getCommentDataInclude = (loggedInUserId: string) => {
   return {
-    user: {
-      select: getUserDataSelect(loggedInUserId),
-    },
+    user: { select: getUserDataSelect(loggedInUserId) },
   } satisfies Prisma.CommentInclude;
-}
+};
 
 export type CommentData = Prisma.CommentGetPayload<{
   include: ReturnType<typeof getCommentDataInclude>;

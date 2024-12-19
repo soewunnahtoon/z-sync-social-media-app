@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { validateUser } from "@/actions/auth/validate-user";
 import { getCommentDataInclude } from "@/lib/utils/comment-data-include";
 
-export async function deleteComment(id: string) {
+export const deleteComment = async (id: string) => {
   const user = await validateUser();
   if (!user) throw new Error("Unauthorized!");
 
@@ -18,4 +18,4 @@ export async function deleteComment(id: string) {
   });
 
   return deletedComment;
-}
+};

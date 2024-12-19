@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Notifications",
 };
 
-export default function Page() {
+const NotificationsPage = () => {
   return (
     <main className="flex w-full min-w-0 gap-2">
       <div className="w-full min-w-0 space-y-2">
@@ -21,4 +21,5 @@ export default function Page() {
       <Sidebar />
     </main>
   );
-}
+};
+export default NotificationsPage;

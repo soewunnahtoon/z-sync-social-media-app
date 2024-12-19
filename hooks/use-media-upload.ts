@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useToast } from "@/hooks/use-toast";
 
-const useMediaUpload = () => {
+export const useMediaUpload = () => {
   const { toast } = useToast();
 
   const [attachments, setAttachments] = useState<Attachment[]>([]);
@@ -92,4 +92,3 @@ const useMediaUpload = () => {
     reset,
   };
 };
-export default useMediaUpload;

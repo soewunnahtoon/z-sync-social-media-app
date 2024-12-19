@@ -1,6 +1,6 @@
-import Spinner from "@/components/spinner";
-import FollowSuggestions from "@/components/sidebar/follow-suggestions";
-import TrendingTopics from "@/components/sidebar/trending-topics";
+import Spinner from "@/components/Spinner";
+import FollowSuggestions from "@/components/sidebar/FollowSuggestions";
+import TrendingTopics from "@/components/sidebar/TrendingTopics";
 
 import { Suspense } from "react";
 
@@ -15,5 +15,4 @@ const Sidebar = () => {
     </div>
   );
 };
-
 export default Sidebar;

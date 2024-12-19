@@ -1,7 +1,7 @@
 import Link from "next/link";
-import CommentMoreButton from "@/components/post/comment/comment-more-button";
-import UserTooltip from "@/components/user-tooltip";
-import UserAvatar from "@/components/user-avatar";
+import CommentMoreButton from "@/components/post/comment/CommentMoreButton";
+import UserTooltip from "@/components/UserTooltip";
+import UserAvatar from "@/components/UserAvatar";
 
 import { CommentData } from "@/lib/utils/comment-data-include";
 import { useClientUser } from "@/hooks/use-client-user";
@@ -48,5 +48,4 @@ const Comment = ({ comment }: CommentProps) => {
     </div>
   );
 };
-
 export default Comment;

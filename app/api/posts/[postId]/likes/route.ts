@@ -14,17 +14,11 @@ export async function GET(
       where: { id: postId },
       select: {
         likes: {
-          where: {
-            userId: loggedInUser.id,
-          },
-          select: {
-            userId: true,
-          },
+          where: { userId: loggedInUser.id },
+          select: { userId: true },
         },
         _count: {
-          select: {
-            likes: true,
-          },
+          select: { likes: true },
         },
       },
     });

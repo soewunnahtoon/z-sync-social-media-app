@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import { useClientUser } from "@/hooks/use-client-user";
 
-const useInitializeChatClient = () => {
+export const useInitializeChatClient = () => {
   const user = useClientUser();
 
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
@@ -43,4 +43,3 @@ const useInitializeChatClient = () => {
 
   return chatClient;
 };
-export default useInitializeChatClient;

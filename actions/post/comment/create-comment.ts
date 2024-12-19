@@ -11,7 +11,7 @@ interface CreateComment {
   content: string;
 }
 
-export async function createComment({ post, content }: CreateComment) {
+export const createComment = async ({ post, content }: CreateComment) => {
   const user = await validateUser();
   if (!user) throw new Error("Unauthorized!");
 
@@ -42,4 +42,4 @@ export async function createComment({ post, content }: CreateComment) {
   ]);
 
   return newComment;
-}
+};

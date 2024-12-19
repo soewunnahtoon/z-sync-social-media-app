@@ -3,24 +3,25 @@
 import "./styles.css";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
-
-import LoadingButton from "@/components/loading-button";
-import UserAvatar from "@/components/user-avatar";
-import useMediaUpload from "@/hooks/use-media-upload";
-import AttachmentPreviews from "@/components/editor/attachment-previews";
-import AddAttachmentsButton from "@/components/editor/add-attachments-button";
+import LoadingButton from "@/components/LoadingButton";
+import UserAvatar from "@/components/UserAvatar";
+import AttachmentPreviews from "@/components/editor/AttachmentPreviews";
+import AddAttachmentsButton from "@/components/editor/AddAttachmentsButton";
 
 import { cn } from "@/lib/utils";
 import { ClipboardEvent } from "react";
 import { Loader2 } from "lucide-react";
-
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useDropzone } from "@uploadthing/react";
-import { useClientUser } from "@/hooks/use-client-user";
+import { useMediaUpload } from "@/hooks/use-media-upload";
 import { CreatePostMutation } from "@/mutations/create-post-mutation";
 
-const PostEditor = () => {
-  const user = useClientUser();
+interface PostEditorProps {
+  name: string;
+  avatarUrl: string | null;
+}
+
+const PostEditor = ({ name, avatarUrl }: PostEditorProps) => {
   const mutation = CreatePostMutation();
 
   const {
@@ -36,7 +37,7 @@ const PostEditor = () => {
     onDrop: startUpload,
   });
 
-  const { onClick, ...rootProps } = getRootProps();
+  const { ...rootProps } = getRootProps();
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -46,7 +47,7 @@ const PostEditor = () => {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: `What's on your mind, ${user?.name.split(" ")[0]}?`,
+        placeholder: `What's on your mind, ${name.split(" ")[0]}?`,
       }),
     ],
   });
@@ -81,7 +82,7 @@ const PostEditor = () => {
   return (
     <div className="flex flex-col gap-2 rounded-2xl bg-card p-2 shadow-sm">
       <div className="flex gap-2">
-        <UserAvatar avatarUrl={user?.avatarUrl} />
+        <UserAvatar avatarUrl={avatarUrl} />
 
         <div {...rootProps} className="w-full">
           <EditorContent

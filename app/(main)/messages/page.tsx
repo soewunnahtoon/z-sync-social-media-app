@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   title: "Messages",
 };
 
-const MessagePage = () => {
+const MessagesPage = () => {
   return <Messages />;
 };
-
-export default MessagePage;
+export default MessagesPage;

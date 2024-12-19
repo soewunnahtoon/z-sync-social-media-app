@@ -1,7 +1,7 @@
 import kyInstance from "@/lib/ky";
-import Comment from "@/components/post/comment/comment";
-import CommentInput from "@/components/post/comment/comment-input";
-import Spinner from "@/components/spinner";
+import Comment from "@/components/post/comment/Comment";
+import CommentInput from "@/components/post/comment/CommentInput";
+import Spinner from "@/components/Spinner";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { PostData } from "@/lib/utils/post-data-include";
@@ -68,5 +68,4 @@ const Comments = ({ post }: CommentsProps) => {
     </div>
   );
 };
-
 export default Comments;

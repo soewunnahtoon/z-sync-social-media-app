@@ -1,34 +1,39 @@
-import { createPost } from "@/actions/post/create-post";
-import { useToast } from "@/hooks/use-toast";
-import { useClientUser } from "@/hooks/use-client-user";
 import {
   InfiniteData,
+  Query,
   QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { createPost } from "@/actions/post/create-post";
+import { useToast } from "@/hooks/use-toast";
+import { useClientUser } from "@/hooks/use-client-user";
 import { PostsPage } from "@/lib/utils/post-data-include";
 
 export const CreatePostMutation = () => {
-  const { toast } = useToast();
-
-  const queryClient = useQueryClient();
-
   const user = useClientUser();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const mutation = useMutation({
     mutationFn: createPost,
+
     onSuccess: async (newPost) => {
-      const queryFilter = {
+      const queryFilter: QueryFilters<
+        InfiniteData<PostsPage, string | null>,
+        Error
+      > = {
         queryKey: ["post-feed"],
-        predicate(query) {
+        predicate: (
+          query: Query<InfiniteData<PostsPage, string | null>, Error>
+        ) => {
           return (
             query.queryKey.includes("for-you") ||
             (query.queryKey.includes("user-posts") &&
               query.queryKey.includes(user?.id))
           );
         },
-      } satisfies QueryFilters;
+      };
 
       await queryClient.cancelQueries(queryFilter);
 
@@ -54,20 +59,22 @@ export const CreatePostMutation = () => {
 
       queryClient.invalidateQueries({
         queryKey: queryFilter.queryKey,
-        predicate(query) {
-          return queryFilter.predicate(query) && !query.state.data;
+        predicate: (
+          query: Query<InfiniteData<PostsPage, string | null>, Error>
+        ) => {
+          return queryFilter.predicate!(query) && !query.state.data;
         },
       });
 
-      toast({
-        description: "Post created",
-      });
+      toast({ description: "Post created." });
     },
-    onError(error) {
+
+    onError: (error) => {
       console.error(error);
+
       toast({
         variant: "destructive",
-        description: "Failed to post. Please try again.",
+        description: "Failed to post. Please try again!",
       });
     },
   });

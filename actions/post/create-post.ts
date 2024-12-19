@@ -5,10 +5,12 @@ import { validateUser } from "@/actions/auth/validate-user";
 import { getPostDataInclude } from "@/lib/utils/post-data-include";
 import { createPostSchema } from "@/schemas";
 
-export const createPost = async (input: {
+interface CreatePostProps {
   content: string;
   mediaIds: string[];
-}) => {
+}
+
+export const createPost = async (input: CreatePostProps) => {
   const user = await validateUser();
   if (!user) throw new Error("Unauthorized!");
 

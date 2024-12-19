@@ -2,7 +2,7 @@ export const publicRoutes = ["/email-verification", "/api/uploadthing"];
 
 export const authRoutes = [
   "/login",
-  "/signup",
+  "/register",
   "/error",
   "/reset-password",
   "/new-password",

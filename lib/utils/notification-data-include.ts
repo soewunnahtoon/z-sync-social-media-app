@@ -10,9 +10,7 @@ export const getNotificationDataInclude = () => {
       },
     },
     post: {
-      select: {
-        content: true,
-      },
+      select: { content: true },
     },
   } satisfies Prisma.NotificationInclude;
 };

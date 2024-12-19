@@ -4,7 +4,7 @@ import MenuBar from "@/components/menu-bar";
 import { redirect } from "next/navigation";
 import { validateUser } from "@/actions/auth/validate-user";
 
-const RootLayout = async ({ children }: ChildrenProp) => {
+const MainLayout = async ({ children }: ChildrenProp) => {
   const user = await validateUser();
   if (!user) redirect("/login");
 
@@ -22,4 +22,4 @@ const RootLayout = async ({ children }: ChildrenProp) => {
     </div>
   );
 };
-export default RootLayout;
+export default MainLayout;

@@ -11,16 +11,14 @@ export async function generateMetadata({
   const searchParams = await searchParamsPromise;
   const q = searchParams.q || "";
 
-  return {
-    title: `Search results for "${q}"`,
-  };
+  return { title: `Search results for "${q}"` };
 }
 
-export default async function Page({
+const SearchPage = async ({
   searchParams: searchParamsPromise,
 }: {
   searchParams: Promise<{ q: string }>;
-}) {
+}) => {
   const searchParams = await searchParamsPromise;
   const q = searchParams.q || "";
 
@@ -39,4 +37,5 @@ export default async function Page({
       <Sidebar />
     </main>
   );
-}
+};
+export default SearchPage;
